@@ -1,4 +1,4 @@
-# Once([简体中文](README.zh_cn.md))
+# Once
 
 <p align="center">
 
@@ -9,33 +9,33 @@
 <img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20Linux-lightgrey.svg">
 </p>
 
-Executes a task once and only once.
+执行你的任务一次且仅一次。
 
 ## Features
 
-- [x] Safe
-- [x] Efficient
-- [x] Persistent
-- [x] Minimalist
-- [x] Intuitive
+- [x] 安全
+- [x] 高效
+- [x] 持久化
+- [x] 极简
+- [x] 直观
 
 ## Usage
 
 ### Run
 
-`Once.run`  will execute your task once and only once during the lifetime of application, and no need to initialize a flag in advance~ 😉
+`Once.run` 会在应用运行期间执行你的任务一次且仅一次，而且不需要提前初始化一个标识~ 😉
 
 ```swift
 func initSomething() {
     Once.run {
-        // No matter how many times `initSomething` is called, the message will only be printed once.
-        // In multithreading, if the task is executing, the subsequent thread will wait for the execution ends.
+        // 无论调用多少次 `initSomething`，都只会打印一次信息。
+        // 多线程情境下，如果任务正在执行，后来的线程会等待任务执行结束。
         print("Once!")
     }
 }
 ```
 
-If you want to judge if the same task has already been executed elsewhere, you can use `token`:
+如果你希望在多个地方来判断同一个任务是否已经执行过了，可以使用 token：
 
 ```swift
 var i = 0
@@ -48,23 +48,23 @@ Once.run(token) {
 
 // b.swift
 Once.run(token) {
-    // No matter how many places it is called, the variable will only increment once.
+    // 无论在多少地方调用都只会自增一次。
     i += 1
 }
 ```
 
 ### Do
 
-Unlike `run`, `do` will persist the execution history of the task (using `UserDefault`).
+不同于 `run`，`do` 会持久化任务的执行历史（使用 `UserDefault`）。
 
-Before moving on to `do`, let's get to know a few simple types:
+在继续介绍 `do` 之前，先来认识几个非常简单的类型：
 
 #### Period
 
-`Period` represents a time period, its common usage is as follows:
+`Period` 表示一个时间周期，它的常见用法如下：
 
 ```swift
-let ago = Period.minute(30).ago  // 30 minutes ago
+let ago = Period.minute(30).ago  // 30 分钟前
 
 let p0: Period = .year(1)
 let p1: Period = .month(2)
@@ -77,24 +77,24 @@ let later = p3.later
 
 #### Scope
 
-`Scope` represents a time range, it is an enumeration:
+`Scope` 表示一个时间范围，它是一个枚举：
 
-- `.install`: from app installation
-- `.version`: from app update
-- `.session`: from app launch
-- `.since(let since)`: from `since`
-- `.until(let until)`: to `until`
-- `.every(let period)`: every `period`
+- `.install`: 从应用安装到现在
+- `.version`: 从应用升级到现在
+- `.session`: 从应用启动到现在
+- `.since(let since)`: 从 since 开始
+- `.until(let until)`: 到 until 为止
+- `.every(let period)`: 每 period
 
-Then, let's take a look at `do`:
+然后让我们来看看 `do` 的 api：
 
 ```swift
 let showTutorial = Label(rawValue: "show tutorial")
 Once.do(showTutorial, scope: .version) { (sealer) in
     app.showTutorial()
     
-    // You always need to call `seal` to mark the task as done, otherwise the execution will not be logged.
-    // Same as `do`, in multithreading, if the task is executing, the subsequent thread will wait for the execution ends.
+    // 你总是需要调用 `seal` 来标记该 task 为已完成，不然这次执行不会被记录。
+    // 与 `do` 一致的是，在多线程情境下，如果任务正在执行，后来的线程会等待任务执行结束。
     sealer.seal() 
 }
 
@@ -108,10 +108,10 @@ Once.unless("pop ad", scope: .session, times: .equalTo(5)) { (sealer) in
     sealer.seal()
 }
 
-// Clear the history of the task.
+// 清除任务的执行历史
 Once.clear("pop ad")
 
-// Date of the last execution.
+// 最后一次的执行时间
 Once.lastDone(of: "pop ad")
 ```
 

@@ -1,6 +1,6 @@
 import Foundation
 
-public func `do`(_ label: Label, scope: Scope = .install, block: (Sealer) -> Void) {
+public func `do`(_ label: Label, scope: Scope? = nil, block: (Sealer) -> Void) {
     Env.ensureInit()
 
     let task = Task.task(for: label)
@@ -8,14 +8,16 @@ public func `do`(_ label: Label, scope: Scope = .install, block: (Sealer) -> Voi
     task.lock()
     defer { task.unlock() }
 
-    task.scope = scope
+    if let scope = scope {
+        task.scope = scope
+    }
 
     if task.canDo {
         block(task.sealer)
     }
 }
 
-public func `if`(_ label: Label, scope: Scope = .install, times: CountChecker, do block: (Sealer) -> Void) {
+public func `if`(_ label: Label, scope: Scope? = nil, times: CountChecker, do block: (Sealer) -> Void) {
     Env.ensureInit()
 
     let task = Task.task(for: label)
@@ -23,14 +25,16 @@ public func `if`(_ label: Label, scope: Scope = .install, times: CountChecker, d
     task.lock()
     defer { task.unlock() }
 
-    task.scope = scope
+    if let scope = scope {
+        task.scope = scope
+    }
 
     if times.check(task.filteredTimestamps.count) {
         block(task.sealer)
     }
 }
 
-public func unless(_ label: Label, scope: Scope = .install, times: CountChecker, do block: (Sealer) -> Void) {
+public func unless(_ label: Label, scope: Scope? = nil, times: CountChecker, do block: (Sealer) -> Void) {
     Env.ensureInit()
 
     let task = Task.task(for: label)
@@ -38,7 +42,9 @@ public func unless(_ label: Label, scope: Scope = .install, times: CountChecker,
     task.lock()
     defer { task.unlock() }
 
-    task.scope = scope
+    if let scope = scope {
+        task.scope = scope
+    }
 
     if !times.check(task.filteredTimestamps.count) {
         block(task.sealer)
