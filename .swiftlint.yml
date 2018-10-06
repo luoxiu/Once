@@ -1,0 +1,10 @@
+included:
+  - Sources
+
+disabled_rules:
+  - cyclomatic_complexity
+  - file_length
+  - function_body_length
+  - identifier_name
+
+line_length: 200
