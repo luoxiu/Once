@@ -9,7 +9,7 @@
 <img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20Linux-lightgrey.svg">
 </p>
 
-Executes a task once and only once.
+Executes your task once and only once.
 
 ## Features
 
@@ -28,8 +28,10 @@ Executes a task once and only once.
 ```swift
 func initSomething() {
     Once.run {
-        // No matter how many times `initSomething` is called, the message will only be printed once.
-        // In multithreading, if the task is executing, the subsequent thread will wait for the execution ends.
+        // No matter how many times `initSomething` is called, 
+        // the message will only be printed once.
+        // In multithreading, if the task is executing, 
+        // the subsequent thread will wait for the execution ends.
         print("Once!")
     }
 }
@@ -57,9 +59,9 @@ Once.run(token) {
 
 Unlike `run`, `do` will persist the execution history of the task (using `UserDefault`).
 
-Before moving on to `do`, let's get to know a few simple types:
+Before moving on to `do`, let's get to know a few simple concepts:
 
-#### Period
+#### Period
 
 `Period` represents a time period, its common usage is as follows:
 
@@ -74,10 +76,9 @@ let p3 = p0 + p1 + p2
 let later = p3.later
 ```
 
-
 #### Scope
 
-`Scope` represents a time range, it is an enumeration:
+`Scope` represents a time range, it is an enum:
 
 - `.install`: from app installation
 - `.version`: from app update
@@ -86,15 +87,18 @@ let later = p3.later
 - `.until(let until)`: to `until`
 - `.every(let period)`: every `period`
 
-Then, let's take a look at `do`:
+Let's take a look at `do`:
 
 ```swift
 let showTutorial = Label(rawValue: "show tutorial")
+
 Once.do(showTutorial, scope: .version) { (sealer) in
     app.showTutorial()
     
-    // You always need to call `seal` to mark the task as done, otherwise the execution will not be logged.
-    // Same as `do`, in multithreading, if the task is executing, the subsequent thread will wait for the execution ends.
+    // You always need to call `seal` to mark the task as done, 
+    // otherwise the execution will not be logged.
+    // Same as `do`, in multithreading, if the task is executing, 
+    // the subsequent thread will wait for the execution ends.
     sealer.seal() 
 }
 

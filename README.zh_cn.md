@@ -23,7 +23,7 @@
 
 ### Run
 
-`Once.run` 会在应用运行期间执行你的任务一次且仅一次，而且不需要提前初始化一个标识~ 😉
+`Once.run` 会在应用运行期间执行你的任务一次且仅一次，而且不需要提前初始化一个标识~ 😉
 
 ```swift
 func initSomething() {
@@ -59,7 +59,7 @@ Once.run(token) {
 
 在继续介绍 `do` 之前，先来认识几个非常简单的类型：
 
-#### Period
+#### Period
 
 `Period` 表示一个时间周期，它的常见用法如下：
 
@@ -74,7 +74,6 @@ let p3 = p0 + p1 + p2
 let later = p3.later
 ```
 
-
 #### Scope
 
 `Scope` 表示一个时间范围，它是一个枚举：
@@ -86,7 +85,7 @@ let later = p3.later
 - `.until(let until)`: 到 until 为止
 - `.every(let period)`: 每 period
 
-然后让我们来看看 `do` 的 api：
+让我们来看看 `do` 的 api：
 
 ```swift
 let showTutorial = Label(rawValue: "show tutorial")
