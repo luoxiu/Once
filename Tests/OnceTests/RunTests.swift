@@ -25,7 +25,13 @@ class RunTests: XCTestCase {
                 i += 1
             }
         }
-        XCTAssertEqual(i, 1)
+        
+        asyncAndWait(concurrent: count) {
+            Once.run {
+                i += 1
+            }
+        }
+        XCTAssertEqual(i, 2)
     }
 
     static var allTests = [
