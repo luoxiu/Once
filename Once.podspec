@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Once"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "Minimalists library to manage one-off operations."
   s.description  = <<-DESC
     Once is a minimalists library to manage one-off operations. 
