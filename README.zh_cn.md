@@ -11,7 +11,7 @@
 
 执行你的任务一次且仅一次。
 
-## Features
+## Highlight
 
 - [x] 安全
 - [x] 高效
@@ -81,9 +81,9 @@ let later = p3.later
 - `.install`: 从应用安装到现在
 - `.version`: 从应用升级到现在
 - `.session`: 从应用启动到现在
-- `.since(let since)`: 从 since 开始
-- `.until(let until)`: 到 until 为止
-- `.every(let period)`: 每 period
+- `.since(let since)`: 从 since(Date) 开始
+- `.until(let until)`: 到 until(Date) 为止
+- `.every(let period)`: 每 period(Period)
 
 让我们来看看 `do` 的 api：
 
@@ -140,3 +140,7 @@ dependencies: [
     .package(url: "https://github.com/jianstm/Once", .upToNextMinor(from: "0.0.1"))
 ]
 ```
+
+## Contributing
+
+遇到一个 bug？想要更多的功能？尽管开一个 issue 或者直接提交一个 pr 吧！

@@ -1,17 +1,25 @@
 # Once([简体中文](README.zh_cn.md))
 
-<p align="center">
+<div align="center">
 
-[![Build Status](https://travis-ci.org/jianstm/Once.svg?branch=master)](https://travis-ci.org/jianstm/Once)
-[![codecov](https://codecov.io/gh/jianstm/Once/branch/master/graph/badge.svg)](https://codecov.io/gh/jianstm/Once)
+<a href="https://travis-ci.org/jianstm/Once">
+  <img src="https://travis-ci.org/jianstm/Once.svg?branch=master">
+</a>
+<a href="https://codecov.io/gh/jianstm/Once">
+  <img src="https://codecov.io/gh/jianstm/Once/branch/master/graph/badge.svg">
+</a>
 <img src="https://img.shields.io/badge/version-0.0.2-orange.svg">
 <img src="https://img.shields.io/badge/support-CocoaPods%20%7C%20Carthage%20%7C%20SwiftPM-brightgreen.svg">
 <img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20Linux-lightgrey.svg">
-</p>
 
-Executes your task once and only once.
+<br>
+<br>
+<br>
+<strong>Executes your task once and only once.</strong>
+</div>
 
-## Features
+
+## Highlight
 
 - [x] Safe
 - [x] Efficient
@@ -83,9 +91,9 @@ let later = p3.later
 - `.install`: from app installation
 - `.version`: from app update
 - `.session`: from app launch
-- `.since(let since)`: from `since`
-- `.until(let until)`: to `until`
-- `.every(let period)`: every `period`
+- `.since(let since)`: from `since(Date)`
+- `.until(let until)`: to `until(Date)`
+- `.every(let period)`: every `period(Period)`
 
 Let's take a look at `do`:
 
@@ -145,3 +153,7 @@ dependencies: [
     .package(url: "https://github.com/jianstm/Once", .upToNextMinor(from: "0.0.1"))
 ]
 ```
+
+## Contributing
+
+Encounter a bug? want more features? Feel free to open an issue or submit a pr directly!
