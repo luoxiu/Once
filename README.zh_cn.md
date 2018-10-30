@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/jianstm/Once.svg?branch=master)](https://travis-ci.org/jianstm/Once)
 [![codecov](https://codecov.io/gh/jianstm/Once/branch/master/graph/badge.svg)](https://codecov.io/gh/jianstm/Once)
-<img src="https://img.shields.io/badge/version-0.0.1-orange.svg">
+<img src="https://img.shields.io/badge/version-0.0.2-orange.svg">
 <img src="https://img.shields.io/badge/support-CocoaPods%20%7C%20Carthage%20%7C%20SwiftPM-brightgreen.svg">
 <img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20Linux-lightgrey.svg">
 </p>
@@ -26,9 +26,9 @@
 `Once.run` 会在应用运行期间执行你的任务一次且仅一次，而且不需要提前初始化一个标识~ 😉
 
 ```swift
-func initSomething() {
+func doSomethingOnlyOnce() {
     Once.run {
-        // 无论调用多少次 `initSomething`，都只会打印一次信息。
+        // 无论调用多少次 `doSomethingOnlyOnce`，都只会打印一次信息。
         // 多线程情境下，如果任务正在执行，后来的线程会等待任务执行结束。
         print("Once!")
     }

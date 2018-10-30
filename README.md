@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/jianstm/Once.svg?branch=master)](https://travis-ci.org/jianstm/Once)
 [![codecov](https://codecov.io/gh/jianstm/Once/branch/master/graph/badge.svg)](https://codecov.io/gh/jianstm/Once)
-<img src="https://img.shields.io/badge/version-0.0.1-orange.svg">
+<img src="https://img.shields.io/badge/version-0.0.2-orange.svg">
 <img src="https://img.shields.io/badge/support-CocoaPods%20%7C%20Carthage%20%7C%20SwiftPM-brightgreen.svg">
 <img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20Linux-lightgrey.svg">
 </p>
@@ -26,9 +26,9 @@ Executes your task once and only once.
 `Once.run`  will execute your task once and only once during the lifetime of application, and no need to initialize a flag in advance~ 😉
 
 ```swift
-func initSomething() {
+func doSomethingOnlyOnce() {
     Once.run {
-        // No matter how many times `initSomething` is called, 
+        // No matter how many times `doSomethingOnlyOnce` is called, 
         // the message will only be printed once.
         // In multithreading, if the task is executing, 
         // the subsequent thread will wait for the execution ends.
