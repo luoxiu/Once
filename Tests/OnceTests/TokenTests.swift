@@ -3,11 +3,28 @@ import XCTest
 
 class TokenTests: XCTestCase {
 
-    let count = 100_000
-
+    let count = 10_000
+    
     func testToken() {
+        let t1 = Token()
+        let t2 = Token()
+        
+        var i = 0
+        asyncAndWait(concurrent: count) {
+            t1.run {
+                i += 1
+            }
+            t2.run {
+                i += 1
+            }
+        }
+        
+        XCTAssertEqual(i, 2)
+    }
+
+    func testStaticToken() {
         let fn = { () -> Token in
-            Once.makeToken()
+            Token.makeStatic()
         }
 
         let t0 = fn()
@@ -19,6 +36,7 @@ class TokenTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testToken", testToken)
+        ("testToken", testToken),
+        ("testStaticToken", testStaticToken)
     ]
 }

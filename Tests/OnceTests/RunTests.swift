@@ -6,7 +6,7 @@ class RunTests: XCTestCase {
     let count = 10_000
 
     func testRunWithToken() {
-        let token = Once.makeToken()
+        let token = Token.makeStatic()
 
         var i = 0
         asyncAndWait(concurrent: count) {
