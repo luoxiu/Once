@@ -5,7 +5,7 @@ final class Task {
     private let mutex = NSRecursiveLock()
 
     private let label: Label
-    private lazy var context = Env.context(for: label)
+    private lazy var context = Environment.context(for: label)
 
     var scope: Scope = .install
 
@@ -55,8 +55,8 @@ extension Task {
             switch scope {
             case .install:                  return true
             case .version:
-                return date >= (Env.versionUpdateDate ?? Date.distantPast)
-            case .session:                  return date >= Env.sessionStartDate
+                return date >= (Environment.versionUpdateDate ?? Date.distantPast)
+            case .session:                  return date >= Environment.sessionStartDate
             case .since(let since):         return date >= since
             case .until(let until):         return date <= until
             case .every(let period):
@@ -68,23 +68,9 @@ extension Task {
 
 extension Task {
 
-    private static let mutex = NSLock()
-    private static var cache: [Label: Task] = [:]
-
+    private static let registry = Atom<[Label: Task]>(value: [:])
+    
     static func task(for label: Label) -> Task {
-        if let task = cache[label] {
-            return task
-        }
-
-        mutex.lock()
-        defer { mutex.unlock() }
-
-        if let task = cache[label] {
-            return task
-        }
-
-        let task = Task(label: label)
-        cache[label] = task
-        return task
+        return registry.once_get(label, Task(label: label))
     }
 }

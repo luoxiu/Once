@@ -92,7 +92,7 @@ extension Period {
 extension Date {
 
     public func adding(_ period: Period) -> Date {
-        let dc = DateComponents(calendar: Calendar(identifier: .gregorian),
+        let comps = DateComponents(calendar: Calendar(identifier: .gregorian),
                                 timeZone: .current,
                                 year: Int(period.year),
                                 month: Int(period.month),
@@ -100,7 +100,7 @@ extension Date {
                                 hour: Int(period.hour),
                                 minute: Int(period.minute),
                                 second: Int(period.second))
-        return Calendar(identifier: .gregorian).date(byAdding: dc, to: self)!
+        return Calendar(identifier: .gregorian).date(byAdding: comps, to: self)!
     }
 
     public func subtracting(_ period: Period) -> Date {

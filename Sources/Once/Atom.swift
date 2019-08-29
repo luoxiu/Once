@@ -9,18 +9,6 @@ final class Atom<Value> {
         self.value = value
     }
     
-    func get() -> Value {
-        return self.lock.withLock {
-            self.value
-        }
-    }
-    
-    func set(_ new: Value) {
-        self.lock.withLock {
-            self.value = new
-        }
-    }
-    
     func withLock<Result>(_ body: (Value) throws -> Result) rethrows -> Result {
         lock.lock()
         defer { lock.unlock() }
@@ -33,11 +21,40 @@ final class Atom<Value> {
         return try body(&value)
     }
     
+    func get() -> Value {
+        return withLock { $0 }
+    }
+    
+    func set(_ new: Value) {
+        return withLockMutating { $0 = new }
+    }
+    
     func exchange(with new: Value) -> Value {
-        return self.withLockMutating {
+        return withLockMutating {
             let old = $0
             $0 = new
             return old
+        }
+    }
+}
+
+extension Atom where Value: AdditiveArithmetic {    // Int
+    
+    @discardableResult
+    func add(_ i: Value) -> Value {
+        return withLockMutating {
+            let old = $0
+            $0 += i
+            return old
+        }
+    }
+}
+
+extension Atom where Value: RangeReplaceableCollection {    // Array
+    
+    func append(_ new: Value.Element) {
+        withLockMutating {
+            $0.append(new)
         }
     }
 }
@@ -49,7 +66,7 @@ extension Atom where Value == Bool {
     func once_run(_ task: () -> Void) {
         if value { return }
         
-        self.withLockMutating {
+        withLockMutating {
             if $0 { return }
             task()
             $0 = true

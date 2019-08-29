@@ -1,7 +1,7 @@
 import Foundation
 
 public func `do`(_ label: Label, scope: Scope? = nil, block: (Sealer) -> Void) {
-    Env.ensureInit()
+    Environment.ensureIsInitialized()
 
     let task = Task.task(for: label)
 
@@ -18,7 +18,7 @@ public func `do`(_ label: Label, scope: Scope? = nil, block: (Sealer) -> Void) {
 }
 
 public func `if`(_ label: Label, scope: Scope? = nil, times: CountChecker, do block: (Sealer) -> Void) {
-    Env.ensureInit()
+    Environment.ensureIsInitialized()
 
     let task = Task.task(for: label)
 
@@ -35,7 +35,7 @@ public func `if`(_ label: Label, scope: Scope? = nil, times: CountChecker, do bl
 }
 
 public func unless(_ label: Label, scope: Scope? = nil, times: CountChecker, do block: (Sealer) -> Void) {
-    Env.ensureInit()
+    Environment.ensureIsInitialized()
 
     let task = Task.task(for: label)
 

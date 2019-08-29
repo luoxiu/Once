@@ -1,4 +1,4 @@
-public struct Label: RawRepresentable {
+public struct Label {
 
     public let rawValue: String
 
@@ -14,13 +14,4 @@ extension Label: ExpressibleByStringLiteral {
     }
 }
 
-extension Label: Hashable {
-
-    public var hashValue: Int {
-        return rawValue.hashValue
-    }
-
-    public static func == (lhs: Label, rhs: Label) -> Bool {
-        return lhs.rawValue == rhs.rawValue
-    }
-}
+extension Label: Hashable { }
