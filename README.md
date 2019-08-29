@@ -45,7 +45,7 @@ func doSomethingOnlyOnce() {
 }
 ```
 
-If you want to judge if the same task has already been executed elsewhere, you can use `token`:
+If you want to check if the same task has already been executed elsewhere, you can use `token`:
 
 ```swift
 var i = 0
