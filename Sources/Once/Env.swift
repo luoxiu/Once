@@ -25,7 +25,7 @@ extension Env {
     private static var isInitialized = false
     private static let mutex = NSLock()
 
-    static func `init`() {
+    static func initialize() {
         if isInitialized {
             return
         }
@@ -53,7 +53,7 @@ extension Env {
     }
 
     static func ensureInit() {
-        Env.init()
+        Env.initialize()
     }
 }
 
