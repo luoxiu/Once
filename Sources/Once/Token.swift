@@ -3,6 +3,8 @@ import Foundation
 public final class Token {
 
     private let isSealed = Atom(value: false)
+    
+    private init() { }
 
     public func `do`(_ task: () -> Void) {
         isSealed.once_run(task)

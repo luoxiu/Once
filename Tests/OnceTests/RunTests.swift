@@ -5,9 +5,9 @@ class RunTests: XCTestCase {
 
     let count = 10_000
     
-    func testDo() {
+    func testMake() {
         let counter = Atom(value: 0)
-        let token = Token()
+        let token = Token.make()
 
         var i = 0
         asyncAndWait(concurrent: count) {
@@ -19,7 +19,7 @@ class RunTests: XCTestCase {
         XCTAssertEqual(i, 1)
     }
     
-    func testStaticDo() {
+    func testStaticMake() {
         let tokens = Atom<[Token]>(value: [])
         
         asyncAndWait(concurrent: count) {
@@ -36,7 +36,7 @@ class RunTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testDo", testDo),
-        ("testStaticDo", testStaticDo)
+        ("testMake", testMake),
+        ("testStaticMake", testStaticMake)
     ]
 }
