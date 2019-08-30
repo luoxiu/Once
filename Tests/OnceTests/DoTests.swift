@@ -79,7 +79,7 @@ class DoTests: XCTestCase {
         let label = Label(rawValue: UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: count) {
-            Once.unless(label, scope: .session, times: .moreThan(5)) { (sealer) in
+            Once.unless(label, scope: .session, times: .greaterThan(5)) { (sealer) in
                 i += 1
                 sealer.seal()
             }
