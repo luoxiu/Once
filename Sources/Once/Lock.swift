@@ -15,9 +15,22 @@ private final class OSUnfairLock: NSLocking {
 }
 #endif
 
-final class Lock {
+final class DispatchSemaphoreLock: NSLocking {
     
-    let locking: NSLocking
+    private let semaphore = DispatchSemaphore(value: 1)
+    
+    func lock() {
+        semaphore.wait()
+    }
+    
+    func unlock() {
+        semaphore.signal()
+    }
+}
+
+final class Lock: NSLocking {
+    
+    private let locking: NSLocking
     
     init() {
         #if canImport(os)
@@ -34,8 +47,11 @@ final class Lock {
     func unlock() {
         locking.unlock()
     }
+}
+
+extension NSLocking {
     
-    func withLock<T>(_ body: @escaping () -> T) -> T {
+    func withLock<T>(_ body: () -> T) -> T {
         lock()
         defer { unlock() }
         return body()

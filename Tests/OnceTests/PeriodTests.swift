@@ -13,12 +13,6 @@ class PeriodTests: XCTestCase {
         } else {
             XCTAssertEqual(d2.dateComponents.month, Date().dateComponents.month! - 1)
         }
-
-        let p = Period.week(1) + Period.day(2) + Period.hour(3) + Period.minute(4) + Period.second(5)
-        let d3 = p.later
-
-        let i = Double(5) + 4 * 60 + 3 * 60 * 60 + 2 * 24 * 60 * 60 + 7 * 24 * 60 * 60
-        XCTAssert(d3.timeIntervalSinceNow - i < 0.001)
     }
 
     static var allTests = [

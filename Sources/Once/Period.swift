@@ -2,40 +2,28 @@ import Foundation
 
 public struct Period {
 
-    let year: UInt
+    public let year: Int
 
-    let month: UInt
+    public let month: Int
 
-    let day: UInt
+    public let day: Int
 
-    let hour: UInt
+    public let hour: Int
 
-    let minute: UInt
+    public let minute: Int
 
-    let second: UInt
-
-    init(year: UInt = 0, month: UInt = 0, day: UInt = 0,
-         hour: UInt = 0, minute: UInt = 0, second: UInt = 0) {
-        self.year = year
-        self.month = month
-        self.day = day
-        self.hour = hour
-        self.minute = minute
-        self.second = second
-    }
-}
-
-extension Period {
-
-    public static func + (lhs: Period, rhs: Period) -> Period {
-        let year = lhs.year + rhs.year
-        let month = lhs.month + rhs.month
-        let day = lhs.day + rhs.day
-        let hour = lhs.hour + rhs.hour
-        let minute = lhs.minute + rhs.minute
-        let second = lhs.second + rhs.second
-        return Period(year: year, month: month, day: day,
-                      hour: hour, minute: minute, second: second)
+    public let second: Int
+    
+    public init(
+        year: Int = 0, month: Int = 0, day: Int = 0,
+        hour: Int = 0, minute: Int = 0, second: Int = 0
+    ) {
+        self.year = max(year, 0)
+        self.month = max(month, 0)
+        self.day = max(day, 0)
+        self.hour = max(hour, 0)
+        self.minute = max(minute, 0)
+        self.second = max(second, 0)
     }
 }
 
@@ -49,42 +37,31 @@ extension Period: Equatable {
 
 extension Period {
 
-    public var later: Date {
-        return Date().adding(self)
-    }
-
-    public var ago: Date {
-        return Date().subtracting(self)
-    }
-}
-
-extension Period {
-
-    public static func year(_ num: UInt) -> Period {
+    public static func year(_ num: Int) -> Period {
         return Period(year: num)
     }
 
-    public static func month(_ num: UInt) -> Period {
+    public static func month(_ num: Int) -> Period {
         return Period(month: num)
     }
 
-    public static func day(_ num: UInt) -> Period {
+    public static func day(_ num: Int) -> Period {
         return Period(day: num)
     }
 
-    public static func hour(_ num: UInt) -> Period {
+    public static func hour(_ num: Int) -> Period {
         return Period(hour: num)
     }
 
-    public static func minute(_ num: UInt) -> Period {
+    public static func minute(_ num: Int) -> Period {
         return Period(minute: num)
     }
 
-    public static func second(_ num: UInt) -> Period {
+    public static func second(_ num: Int) -> Period {
         return Period(second: num)
     }
 
-    public static func week(_ num: UInt) -> Period {
+    public static func week(_ num: Int) -> Period {
         return Period(day: 7 * num)
     }
 }
@@ -92,26 +69,41 @@ extension Period {
 extension Date {
 
     public func adding(_ period: Period) -> Date {
-        let comps = DateComponents(calendar: Calendar(identifier: .gregorian),
-                                timeZone: .current,
-                                year: Int(period.year),
-                                month: Int(period.month),
-                                day: Int(period.day),
-                                hour: Int(period.hour),
-                                minute: Int(period.minute),
-                                second: Int(period.second))
-        return Calendar(identifier: .gregorian).date(byAdding: comps, to: self)!
+        let comps = DateComponents(
+            calendar: Calendar(identifier: .gregorian),
+            timeZone: .current,
+            year: period.year,
+            month: period.month,
+            day: period.day,
+            hour: period.hour,
+            minute: period.minute,
+            second: period.second
+        )
+        return Calendar(identifier: .gregorian).date(byAdding: comps, to: self) ?? self
     }
 
     public func subtracting(_ period: Period) -> Date {
-        let dc = DateComponents(calendar: Calendar(identifier: .gregorian),
-                                timeZone: .current,
-                                year: -Int(period.year),
-                                month: -Int(period.month),
-                                day: -Int(period.day),
-                                hour: -Int(period.hour),
-                                minute: -Int(period.minute),
-                                second: -Int(period.second))
-        return Calendar(identifier: .gregorian).date(byAdding: dc, to: self)!
+        let comps = DateComponents(
+            calendar: Calendar(identifier: .gregorian),
+            timeZone: .current,
+            year: -period.year,
+            month: -period.month,
+            day: -period.day,
+            hour: -period.hour,
+            minute: -period.minute,
+            second: -period.second
+        )
+        return Calendar(identifier: .gregorian).date(byAdding: comps, to: self) ?? self
+    }
+}
+
+extension Period {
+    
+    public var later: Date {
+        return Date().adding(self)
+    }
+    
+    public var ago: Date {
+        return Date().subtracting(self)
     }
 }
