@@ -3,8 +3,7 @@
 <p align="center">
 
 [![Build Status](https://travis-ci.org/luoxiu/Once.svg?branch=master)](https://travis-ci.org/luoxiu/Once)
-[![codecov](https://codecov.io/gh/luoxiu/Once/branch/master/graph/badge.svg)](https://codecov.io/gh/luoxiu/Once)
-![release](https://img.shields.io/github/release-pre/luoxiu/Once)
+![release](https://img.shields.io/github/v/release/luoxiu/Once?include_prereleases)
 ![install](https://img.shields.io/badge/install-spm%20%7C%20cocoapods%20%7C%20carthage-ff69b4)
 ![platform](https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey)
 ![license](https://img.shields.io/github/license/luoxiu/combinex?color=black)
@@ -66,7 +65,7 @@ class Manager {
 }
 ```
 
-### Do
+#### PersistentToken
 
 Unlike `run`, `do` will persist the execution history of the task (using `UserDefault`).
 
