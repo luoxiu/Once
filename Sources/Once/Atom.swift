@@ -2,10 +2,11 @@ import Foundation
 
 final class Atom<Value> {
     
-    private let lock = Lock()
+    private let lock: NSLocking
     private var value: Value
     
-    init(value: Value) {
+    init(value: Value, lock: NSLocking = Lock()) {
+        self.lock = lock
         self.value = value
     }
     

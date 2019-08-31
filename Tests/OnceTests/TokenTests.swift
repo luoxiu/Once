@@ -1,7 +1,7 @@
 import XCTest
 @testable import Once
 
-class RunTests: XCTestCase {
+class TokenTests: XCTestCase {
 
     let count = 10_000
     

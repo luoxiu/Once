@@ -2,12 +2,12 @@ import Foundation
 
 public final class Token {
 
-    private let isSealed = Atom(value: false)
+    private let done = Atom(value: false)
     
     private init() { }
 
     public func `do`(_ task: () -> Void) {
-        isSealed.once_run(task)
+        done.once_run(task)
     }
     
     public static func `do`(file: String = #file, line: Int = #line, column: Int = #column, _ task: () -> Void) {
