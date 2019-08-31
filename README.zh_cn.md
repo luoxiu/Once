@@ -2,145 +2,168 @@
 
 <p align="center">
 
-[![Build Status](https://travis-ci.org/jianstm/Once.svg?branch=master)](https://travis-ci.org/jianstm/Once)
-[![codecov](https://codecov.io/gh/jianstm/Once/branch/master/graph/badge.svg)](https://codecov.io/gh/jianstm/Once)
-<img src="https://img.shields.io/badge/version-0.0.2-orange.svg">
-<img src="https://img.shields.io/badge/support-CocoaPods%20%7C%20Carthage%20%7C%20SwiftPM-brightgreen.svg">
-<img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20Linux-lightgrey.svg">
+[![Build Status](https://travis-ci.org/luoxiu/Once.svg?branch=master)](https://travis-ci.org/luoxiu/Once)
+[![codecov](https://codecov.io/gh/luoxiu/Once/branch/master/graph/badge.svg)](https://codecov.io/gh/luoxiu/Once)
+![release](https://img.shields.io/github/release-pre/luoxiu/Once)
+![install](https://img.shields.io/badge/install-spm%20%7C%20cocoapods%20%7C%20carthage-ff69b4)
+![platform](https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey)
+![license](https://img.shields.io/github/license/luoxiu/combinex?color=black)
+
 </p>
 
-执行你的任务一次且仅一次。
+Once 可以让你用直观的 API 管理任务的执行次数。
 
 ## Highlight
 
 - [x] 安全
 - [x] 高效
 - [x] 持久化
-- [x] 极简
-- [x] 直观
 
 ## Usage
 
-### Run
+### Token
 
-`Once.run` 会在应用运行期间执行你的任务一次且仅一次，而且不需要提前初始化一个标识~ 😉
+`Token` 在内存中记录任务的执行次数，它可以让任务在整个 app 生命期内只执行一次。
+
+你可以把它看作 OC 中 `dispatch_once` 的替代品：
+
+```objectivec
+static dispatch_once_t token;
+dispatch_once(&token, ^{
+    // do something only once
+});
+```
+
+使用 `Token` 的 swift 代码如下：
 
 ```swift
-func doSomethingOnlyOnce() {
-    Once.run {
-        // 无论调用多少次 `doSomethingOnlyOnce`，都只会打印一次信息。
-        // 多线程情境下，如果任务正在执行，后来的线程会等待任务执行结束。
-        print("Once!")
+let token = Token.makeStatic()
+token.do {
+    // do something only once
+}
+```
+
+或者，更简单一点：
+
+```swift
+Token.do {
+    // do something only once
+}
+```
+
+你也可以不用 `static`：
+
+```swift
+class Manager {
+    let loadToken = Token.make()
+
+    func ensureLoad() {
+        loadToken.do {
+            // do something only once per manager.
+        }
     }
 }
 ```
 
-如果你希望在多个地方来判断同一个任务是否已经执行过了，可以使用 token：
+### PersistentToken
 
-```swift
-var i = 0
-let token = Once.makeToken()
+不同于 `Token`，`PersistentToken` 会持久化任务的执行历史（使用 `UserDefault`）。
 
-// a.swift
-Once.run(token) {
-    i += 1
-}
-
-// b.swift
-Once.run(token) {
-    // 无论在多少地方调用都只会自增一次。
-    i += 1
-}
-```
-
-### Do
-
-不同于 `run`，`do` 会持久化任务的执行历史（使用 `UserDefault`）。
-
-在继续介绍 `do` 之前，先来认识几个非常简单的类型：
-
-#### Period
-
-`Period` 表示一个时间周期，它的常见用法如下：
-
-```swift
-let ago = Period.minute(30).ago  // 30 分钟前
-
-let p0: Period = .year(1)
-let p1: Period = .month(2)
-let p2: Period = .day(3)
-
-let p3 = p0 + p1 + p2
-let later = p3.later
-```
+`PersistentToken` 根据 `Scope` 和 `TimesPredicate` 判断是否应该执行本次任务。
 
 #### Scope
 
-`Scope` 表示一个时间范围，它是一个枚举：
+`Scope` 表示时间范围。它是一个枚举：
 
 - `.install`: 从应用安装到现在
 - `.version`: 从应用升级到现在
 - `.session`: 从应用启动到现在
-- `.since(let since)`: 从 since(Date) 开始
-- `.until(let until)`: 到 until(Date) 为止
-- `.every(let period)`: 每 period(Period)
+- `.since(let since)`: 从 since 到现在
+- `.until(let until)`: 从开始到 until
 
-让我们来看看 `do` 的 api：
+#### TimesPredicate
+
+`TimesPredicate` 表示次数范围。
 
 ```swift
-let showTutorial = Label(rawValue: "show tutorial")
-Once.do(showTutorial, scope: .version) { (sealer) in
-    app.showTutorial()
-    
-    // 你总是需要调用 `seal` 来标记该 task 为已完成，不然这次执行不会被记录。
-    // 与 `do` 一致的是，在多线程情境下，如果任务正在执行，后来的线程会等待任务执行结束。
-    sealer.seal() 
-}
-
-Once.if("remind", scope: .session, times: .lessThan(3)) { (sealer) in
-    app.remind()
-    sealer.seal()
-}
-
-Once.unless("pop ad", scope: .session, times: .equalTo(5)) { (sealer) in
-    app.popAd()
-    sealer.seal()
-}
-
-// 清除任务的执行历史
-Once.clear("pop ad")
-
-// 最后一次的执行时间
-Once.lastDone(of: "pop ad")
+let p0 = TimesPredicate.equalTo(1)
+let p1 = TimesPredicate.lessThan(1)
+let p2 = TimesPredicate.moreThan(1)
+let p3 = TimesPredicate.lessThanOrEqualTo(1)
+let p4 = TimesPredicate.moreThanOrEqualTo(1)
 ```
 
-## Installation
+#### do
+
+你可以使用 `Scope` 和 `TimesPredicate` 组合成任意你想要的计划，而这，同样是线程安全的。
+
+```swift
+let token = PersistentToken.make("showTutorial")
+token.do(in: .version, if: .equalTo(0)) {
+    app.showTutorial()
+}
+
+// or
+let later = 2.days.later
+token.do(in: .until(later), if: .lessThan(5)) {
+    app.showTutorial()
+}
+```
+
+#### done
+
+有时，你的异步任务可能会失败，你并不想把失败的任务标记为 done，你可以：
+
+```swift
+let token = PersistentToken.make("showAD")
+token.do(in: .install, if: .equalTo(0)) { task in
+    networkService.fetchAD { result in
+        if result.isSuccess {
+            showAD(result)
+            task.done()
+        }
+    }
+}
+```
+
+要提醒的是，这时的判断就不再是绝对安全的了——如果有多个线程同时检查该 token 的话，但这应该很少发生，😉。
+
+#### reset
+
+你还可以清除一个任务的执行历史：
+
+```swift
+token.reset()
+```
+
+清除所有任务的执行历史也是允许的，但要后果自负：
+
+```swift
+PersistentToken.resetAll()
+```
+
+## 安装
 
 ### CocoaPods
 
 ```ruby
-# Podfile
-use_frameworks!
-
-target 'YOUR_TARGET_NAME' do
-  pod 'Once', '~> 0.0.1'
-end
+pod 'Once', '~> 1.0.0'
 ```
 
 ### Carthage
 
 ```ruby
-github "jianstm/Once" ~> 0.0.1
+github "luoxiu/Once" ~> 1.0.0
 ```
 
 ### Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/jianstm/Once", .upToNextMinor(from: "0.0.1"))
+    .package(url: "https://github.com/luoxiu/Once", .upToNextMinor(from: "1.0.0"))
 ]
 ```
 
-## Contributing
+## 贡献
 
 遇到一个 bug？想要更多的功能？尽管开一个 issue 或者直接提交一个 pr 吧！

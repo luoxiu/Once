@@ -16,13 +16,6 @@
 		66145EA8215E6A8300A8E10E /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EA6215E6A8300A8E10E /* Scope.swift */; };
 		66145EA9215E6A8300A8E10E /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EA6215E6A8300A8E10E /* Scope.swift */; };
 		66145EAA215E6A8300A8E10E /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EA6215E6A8300A8E10E /* Scope.swift */; };
-		66145EAC215E6B8100A8E10E /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EAB215E6B8100A8E10E /* Period.swift */; };
-		66145EAD215E6B8100A8E10E /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EAB215E6B8100A8E10E /* Period.swift */; };
-		66145EAE215E6B8100A8E10E /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EAB215E6B8100A8E10E /* Period.swift */; };
-		66145EAF215E6B8100A8E10E /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EAB215E6B8100A8E10E /* Period.swift */; };
-		66145EBA215E6D3600A8E10E /* PeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EB9215E6D3600A8E10E /* PeriodTests.swift */; };
-		66145EBB215E6D3600A8E10E /* PeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EB9215E6D3600A8E10E /* PeriodTests.swift */; };
-		66145EBC215E6D3600A8E10E /* PeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66145EB9215E6D3600A8E10E /* PeriodTests.swift */; };
 		6625AA3C2317F5EE00423CE9 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6625AA3B2317F5EE00423CE9 /* Atom.swift */; };
 		6625AA3D2317F5EE00423CE9 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6625AA3B2317F5EE00423CE9 /* Atom.swift */; };
 		6625AA3E2317F5EE00423CE9 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6625AA3B2317F5EE00423CE9 /* Atom.swift */; };
@@ -89,8 +82,6 @@
 		52D6DA0F1BF000BD002C0205 /* Once.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Once.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6211B25C2160BC76004358F2 /* PersistentToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentToken.swift; sourceTree = "<group>"; };
 		66145EA6215E6A8300A8E10E /* Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
-		66145EAB215E6B8100A8E10E /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
-		66145EB9215E6D3600A8E10E /* PeriodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTests.swift; sourceTree = "<group>"; };
 		6625AA3B2317F5EE00423CE9 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
 		6625AA402317F6E300423CE9 /* Lock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
 		66D8B43421678CD10059A3EF /* TimesPredicate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesPredicate.swift; sourceTree = "<group>"; };
@@ -207,7 +198,6 @@
 		6685EDC5215D13A800E6CBE2 /* Once */ = {
 			isa = PBXGroup;
 			children = (
-				66145EAB215E6B8100A8E10E /* Period.swift */,
 				6211B25C2160BC76004358F2 /* PersistentToken.swift */,
 				66145EA6215E6A8300A8E10E /* Scope.swift */,
 				66D8B43421678CD10059A3EF /* TimesPredicate.swift */,
@@ -229,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				66D8B4472167B82C0059A3EF /* TokenTests.swift */,
-				66145EB9215E6D3600A8E10E /* PeriodTests.swift */,
 				66D8B45A2167BCA00059A3EF /* TimesPredicateTests.swift */,
 				66EC2C192168A4FF00DCAE9F /* PersistentTokenTests.swift */,
 				66D8B44F2167BAB30059A3EF /* XCTestManifests.swift */,
@@ -540,7 +529,6 @@
 				66145EA7215E6A8300A8E10E /* Scope.swift in Sources */,
 				6625AA3C2317F5EE00423CE9 /* Atom.swift in Sources */,
 				66D8B43521678CD10059A3EF /* TimesPredicate.swift in Sources */,
-				66145EAC215E6B8100A8E10E /* Period.swift in Sources */,
 				6211B25D2160BC76004358F2 /* PersistentToken.swift in Sources */,
 				6625AA412317F6E300423CE9 /* Lock.swift in Sources */,
 			);
@@ -555,7 +543,6 @@
 				66D8B45B2167BCA00059A3EF /* TimesPredicateTests.swift in Sources */,
 				66D8B4502167BAB30059A3EF /* XCTestManifests.swift in Sources */,
 				66D8B44C2167B8360059A3EF /* TokenTests.swift in Sources */,
-				66145EBA215E6D3600A8E10E /* PeriodTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,7 +554,6 @@
 				66145EA9215E6A8300A8E10E /* Scope.swift in Sources */,
 				6625AA3E2317F5EE00423CE9 /* Atom.swift in Sources */,
 				66D8B43721678CD10059A3EF /* TimesPredicate.swift in Sources */,
-				66145EAE215E6B8100A8E10E /* Period.swift in Sources */,
 				6211B25F2160BC76004358F2 /* PersistentToken.swift in Sources */,
 				6625AA432317F6E300423CE9 /* Lock.swift in Sources */,
 			);
@@ -581,7 +567,6 @@
 				66145EAA215E6A8300A8E10E /* Scope.swift in Sources */,
 				6625AA3F2317F5EE00423CE9 /* Atom.swift in Sources */,
 				66D8B43821678CD10059A3EF /* TimesPredicate.swift in Sources */,
-				66145EAF215E6B8100A8E10E /* Period.swift in Sources */,
 				6211B2602160BC76004358F2 /* PersistentToken.swift in Sources */,
 				6625AA442317F6E300423CE9 /* Lock.swift in Sources */,
 			);
@@ -595,7 +580,6 @@
 				66145EA8215E6A8300A8E10E /* Scope.swift in Sources */,
 				6625AA3D2317F5EE00423CE9 /* Atom.swift in Sources */,
 				66D8B43621678CD10059A3EF /* TimesPredicate.swift in Sources */,
-				66145EAD215E6B8100A8E10E /* Period.swift in Sources */,
 				6211B25E2160BC76004358F2 /* PersistentToken.swift in Sources */,
 				6625AA422317F6E300423CE9 /* Lock.swift in Sources */,
 			);
@@ -610,7 +594,6 @@
 				66D8B45C2167BCA00059A3EF /* TimesPredicateTests.swift in Sources */,
 				66D8B4512167BAB30059A3EF /* XCTestManifests.swift in Sources */,
 				66D8B44D2167B8370059A3EF /* TokenTests.swift in Sources */,
-				66145EBB215E6D3600A8E10E /* PeriodTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,7 +605,6 @@
 				66D8B45D2167BCA00059A3EF /* TimesPredicateTests.swift in Sources */,
 				66D8B4522167BAB30059A3EF /* XCTestManifests.swift in Sources */,
 				66D8B44E2167B8370059A3EF /* TokenTests.swift in Sources */,
-				66145EBC215E6D3600A8E10E /* PeriodTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

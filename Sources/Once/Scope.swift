@@ -11,6 +11,4 @@ public enum Scope {
     case since(Date)
 
     case until(Date)
-
-    case every(Period)
 }

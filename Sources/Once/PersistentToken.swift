@@ -36,7 +36,6 @@ public final class PersistentToken {
         UserDefaults.standard.set(context, forKey: contextKey)
     }
 
-    // for testing only
     static func initialize() {
         sessionStartDate = Date()
         
@@ -77,8 +76,6 @@ extension PersistentToken {
             case .session:                  return date > PersistentToken.sessionStartDate
             case .since(let since):         return date > since
             case .until(let until):         return date < until
-            case .every(let period):
-                return date >= Date().subtracting(period)
             }
         }
     }
@@ -89,17 +86,22 @@ extension PersistentToken {
 }
 
 extension PersistentToken {
-    
-    public typealias Done = () -> Void
-    
-    public func `do`(in scope: Scope, if timesPredicate: TimesPredicate, _ task: (Done) -> Void) {
+ 
+    public func `do`(in scope: Scope, if timesPredicate: TimesPredicate, _ task: (PersistentToken) -> Void) {
         PersistentToken.ensureInitialized()
-        
         lock.withLock {
             if hasBeenDone(in: scope, timesPredicate) {
-                task {
-                    timestamps.append(Date())
-                }
+                task(self)
+            }
+        }
+    }
+    
+    public func `do`(in scope: Scope, if timesPredicate: TimesPredicate, _ task: () -> Void) {
+        PersistentToken.ensureInitialized()
+        lock.withLock {
+            if hasBeenDone(in: scope, timesPredicate) {
+                task()
+                timestamps.append(Date())
             }
         }
         flushContext()

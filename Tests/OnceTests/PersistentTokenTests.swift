@@ -23,9 +23,8 @@ class PersistentTokenTests: XCTestCase {
         let token = PersistentToken.make(UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: count) {
-            token.do(in: .install, if: .equalTo(0)) { done in
+            token.do(in: .install, if: .equalTo(0)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 1)
@@ -35,9 +34,8 @@ class PersistentTokenTests: XCTestCase {
         let token = PersistentToken.make(UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: count) {
-            token.do(in: .install, if: .lessThan(3)) { done in
+            token.do(in: .install, if: .lessThan(3)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 3)
@@ -52,9 +50,8 @@ class PersistentTokenTests: XCTestCase {
         var i = 0
         
         asyncAndWait(concurrent: count) {
-            token.do(in: .version, if: .equalTo(0)) { done in
+            token.do(in: .version, if: .equalTo(0)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 1)
@@ -63,9 +60,8 @@ class PersistentTokenTests: XCTestCase {
         PersistentToken.initialize()
         
         asyncAndWait(concurrent: count) {
-            token.do(in: .version, if: .equalTo(0)) { done in
+            token.do(in: .version, if: .equalTo(0)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 2)
@@ -75,9 +71,8 @@ class PersistentTokenTests: XCTestCase {
         let token = PersistentToken.make(UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: count) {
-            token.do(in: .session, if: .lessThan(3)) { done in
+            token.do(in: .session, if: .lessThan(3)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 3)
@@ -87,9 +82,8 @@ class PersistentTokenTests: XCTestCase {
         let token = PersistentToken.make(UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: count) {
-            token.do(in: .session, if: .equalTo(0)) { done in
+            token.do(in: .session, if: .equalTo(0)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 1)
@@ -97,9 +91,8 @@ class PersistentTokenTests: XCTestCase {
         token.reset()
         
         asyncAndWait(concurrent: count) {
-            token.do(in: .session, if: .equalTo(0)) { done in
+            token.do(in: .session, if: .equalTo(0)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 2)
@@ -111,9 +104,8 @@ class PersistentTokenTests: XCTestCase {
         asyncAndWait(concurrent: count) {
             let token = PersistentToken.make(UUID().uuidString)
             tokens.append(token)
-            token.do(in: .session, if: .equalTo(0)) { done in
+            token.do(in: .session, if: .equalTo(0)) {
                 num.add(1)
-                done()
             }
         }
         XCTAssertEqual(num.get(), count)
@@ -121,9 +113,8 @@ class PersistentTokenTests: XCTestCase {
         PersistentToken.resetAll()
         
         tokens.get().forEach {
-            $0.do(in: .session, if: .equalTo(0)) { done in
+            $0.do(in: .session, if: .equalTo(0)) {
                 num.add(1)
-                done()
             }
         }
         XCTAssertEqual(num.get(), count + count)
@@ -133,18 +124,16 @@ class PersistentTokenTests: XCTestCase {
         let token = PersistentToken.make(UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: count) {
-            token.do(in: .since(Date() - 0.5), if: .lessThan(3)) { done in
+            token.do(in: .since(Date() - 0.5), if: .lessThan(3)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 3)
         
         Thread.sleep(forTimeInterval: 0.5)
         asyncAndWait(concurrent: count) {
-            token.do(in: .since(Date() - 0.5), if: .lessThan(3)) { done in
+            token.do(in: .since(Date() - 0.5), if: .lessThan(3)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 6)
@@ -154,9 +143,8 @@ class PersistentTokenTests: XCTestCase {
         let token = PersistentToken.make(UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: count) {
-            token.do(in: .until(Date() + 0.5), if: .lessThan(3)) { done in
+            token.do(in: .until(Date() + 0.5), if: .lessThan(3)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 3)
@@ -164,43 +152,19 @@ class PersistentTokenTests: XCTestCase {
         token.reset()
         
         asyncAndWait(concurrent: count) {
-            token.do(in: .until(Date() + 0.5), if: .lessThan(3)) { done in
+            token.do(in: .until(Date() + 0.5), if: .lessThan(3)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 6)
-    }
-    
-    func testEvery() {
-        let token = PersistentToken.make(UUID().uuidString)
-        var i = 0
-        asyncAndWait(concurrent: 10) {
-            token.do(in: .every(.second(1)), if: .equalTo(0)) { done in
-                i += 1
-                done()
-            }
-        }
-        XCTAssertEqual(i, 1)
-        
-        Thread.sleep(forTimeInterval: 1)
-        
-        asyncAndWait(concurrent: 10) {
-            token.do(in: .every(.second(1)), if: .equalTo(0)) { done in
-                i += 1
-                done()
-            }
-        }
-        XCTAssertEqual(i, 2)
     }
     
     func testHasBeenDone() {
         let token = PersistentToken.make(UUID().uuidString)
         var i = 0
         asyncAndWait(concurrent: 10) {
-            token.do(in: .session, if: .lessThan(3)) { done in
+            token.do(in: .session, if: .lessThan(3)) {
                 i += 1
-                done()
             }
         }
         XCTAssertEqual(i, 3)
@@ -217,7 +181,6 @@ class PersistentTokenTests: XCTestCase {
         "testResetAll": testResetAll,
         "testSince": testSince,
         "testUntil": testUntil,
-        "testEvery": testEvery,
         "testHasBeenDone": testHasBeenDone
     ]
 }
